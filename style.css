@@ -1,0 +1,27 @@
+* {
+    transition: all 0.3s ease;
+}
+
+/* Hover Glow */
+.glow:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 40px rgba(168,85,247,0.8);
+}
+
+/* Floating */
+.float {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    nav ul {
+        display: none;
+    }
+}

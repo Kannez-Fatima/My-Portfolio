@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chocolate Shop AI Agent - Kaneez Fatima</title>
+
+<style>
+body {
+  font-family: Arial;
+  background: #2b0f0f;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.chat-container {
+  width: 370px;
+  background: #4b1d1d;
+  border-radius: 15px;
+  padding: 15px;
+}
+
+h2 {
+  text-align: center;
+}
+
+.chat-box {
+  height: 320px;
+  overflow-y: auto;
+  background: #1a0606;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.message { margin: 6px 0; }
+.user { text-align: right; color: #facc15; }
+.bot { text-align: left; color: #4ade80; }
+
+input {
+  width: 75%;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+}
+
+button {
+  width: 22%;
+  padding: 8px;
+  border: none;
+  background: #22c55e;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="chat-container">
+  <h2>🍫 Chocolate Shop AI</h2>
+
+  <div class="chat-box" id="chatBox"></div>
+
+  <input type="text" id="userInput" placeholder="Ask something...">
+  <button onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+
+function sendMessage() {
+  let input = document.getElementById("userInput");
+  let msg = input.value.trim();
+
+  if (msg === "") return;
+
+  addMessage(msg, "user");
+
+  let reply = getReply(msg.toLowerCase());
+
+  setTimeout(() => addMessage(reply, "bot"), 400);
+
+  input.value = "";
+}
+
+function addMessage(text, type) {
+  let chatBox = document.getElementById("chatBox");
+  let div = document.createElement("div");
+  div.classList.add("message", type);
+  div.innerText = text;
+  chatBox.appendChild(div);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function getReply(msg) {
+
+  // Greeting
+  if (msg.includes("hi") || msg.includes("hello")) {
+    return "Hello! How can I help you? 🍫 You are now in Chocolate Shop.";
+  }
+
+  // Flavors
+  else if (msg.includes("flavour") || msg.includes("flavor")) {
+    return "We have Vanilla, Chocolate, Strawberry, Mango and Caramel flavours.";
+  }
+
+  // Menu
+  else if (msg.includes("menu")) {
+    return "Menu:\n1. Chocolate Bar\n2. Truffles\n3. Chocolate Cake\n4. Ice Cream";
+  }
+
+  // Price
+  else if (msg.includes("price")) {
+    return "Prices:\nChocolate Bar: $2\nTruffles: $5\nCake: $10\nIce Cream: $3";
+  }
+
+  // Payment
+  else if (msg.includes("payment") || msg.includes("pay")) {
+    return "Payment methods: Cash, Card, EasyPaisa, JazzCash.";
+  }
+ 
+ 
+    
+ 
+
+  // Unknown
+  else {
+    return "Sorry, I cannot help you.";
+  }
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Kaneez Fatima Portfolio</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body {
+  margin:0;
+  background:linear-gradient(135deg,#0F172A,#1E1B4B);
+  color:#E2E8F0;
+  overflow-x:hidden;
+}
+
+/* Cursor */
+.cursor {
+  width:18px;
+  height:18px;
+  background:#38BDF8;
+  position:fixed;
+  border-radius:50%;
+  pointer-events:none;
+  filter:blur(6px);
+}
+
+/* Canvas */
+canvas {
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:-1;
+}
+
+/* Card */
+.card {
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(12px);
+  padding:20px;
+  border-radius:16px;
+  transition:0.4s;
+  border:1px solid rgba(255,255,255,0.1);
+}
+.card:hover {
+  transform:scale(1.05) rotateX(4deg) rotateY(4deg);
+  box-shadow:0 0 30px rgba(56,189,248,0.4);
+}
+
+/* Skill */
+.skill {
+  padding:10px 18px;
+  border-radius:25px;
+  background:linear-gradient(45deg,#38BDF8,#8B5CF6);
+  margin:5px;
+  display:inline-block;
+  transition:0.4s;
+  font-size:14px;
+}
+.skill:hover {
+  transform:scale(1.15);
+  box-shadow:0 0 20px #38BDF8;
+}
+
+/* Contact */
+.contact-btn {
+  background:linear-gradient(45deg,#22D3EE,#8B5CF6);
+  padding:12px 28px;
+  border-radius:30px;
+  transition:0.4s;
+}
+.contact-btn:hover {
+  transform:scale(1.15);
+  box-shadow:0 0 25px #22D3EE;
+}
+
+/* Fade */
+.fade {
+  opacity:0;
+  transform:translateY(50px);
+  transition:1s;
+}
+.fade.show {
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* Responsive tweaks */
+@media(max-width:768px){
+  h1 {font-size:28px;}
+  h2 {font-size:22px;}
+  .card {padding:15px;}
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+<div class="cursor" id="cursor"></div>
+
+<!-- HERO -->
+<section class="min-h-screen flex justify-center items-center px-4">
+  <div class="card text-center max-w-lg w-full">
+    <h1 class="text-4xl md:text-5xl mb-3">Kaneez Fatima</h1>
+    <p class="text-gray-300 text-sm md:text-base">
+      Software Engineering Student | Web Developer
+    </p>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="fade p-6 md:p-10 max-w-4xl mx-auto">
+  <div class="card">
+    <h2 class="text-2xl mb-2">About Me</h2>
+    <p>
+      A hardworking and committed Software Engineering student with strong skills
+      in web development, teaching, and editing. Passionate about learning and delivering
+      quality work.
+    </p>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="fade p-6 md:p-10 max-w-5xl mx-auto">
+  <h2 class="text-3xl mb-4">Skills</h2>
+
+  <div>
+    <span class="skill">HTML</span>
+    <span class="skill">CSS</span>
+    <span class="skill">JavaScript</span>
+    <span class="skill">jQuery</span>
+    <span class="skill">PHP</span>
+    <span class="skill">MySQL</span>
+    <span class="skill">C Language</span>
+    <span class="skill">OOP</span>
+  </div>
+
+  <div class="mt-4">
+    <span class="skill">MS Word</span>
+    <span class="skill">MS Excel</span>
+    <span class="skill">PowerPoint</span>
+    <span class="skill">Canva</span>
+    <span class="skill">Photoshop</span>
+  </div>
+
+  <div class="mt-4">
+    <span class="skill">Fast Typing</span>
+    <span class="skill">Communication</span>
+    <span class="skill">Teaching</span>
+    <span class="skill">Creativity</span>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="fade p-6 md:p-10 max-w-5xl mx-auto">
+  <h2 class="text-3xl mb-4">Experience</h2>
+
+  <div class="grid sm:grid-cols-2 gap-5">
+    <div class="card">Freelance Typist & Documentation</div>
+    <div class="card">CV & Resume Design</div>
+    <div class="card">Web Development Projects</div>
+    <div class="card">Teaching Experience</div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="fade p-6 md:p-10 text-center">
+  <h2 class="text-3xl mb-4">Contact Me</h2>
+  <p>Email: kanezooshehzadi@gmail.com</p>
+  <p class="mb-4">Phone: +92 3296544448</p>
+
+  <button class="contact-btn" onclick="chatOpen()">Send Message</button>
+ 
+</section>
+
+<script>
+// Cursor
+const cursor = document.getElementById("cursor");
+document.addEventListener("mousemove", e=>{
+  cursor.style.left = e.clientX+"px";
+  cursor.style.top = e.clientY+"px";
+});
+
+// Particles
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles=[];
+for(let i=0;i<40;i++){
+  particles.push({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+    r:Math.random()*2,
+    dx:(Math.random()-0.5)*0.3,
+    dy:(Math.random()-0.5)*0.3
+  });
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{
+    p.x+=p.dx;
+    p.y+=p.dy;
+
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle="rgba(56,189,248,0.5)";
+    ctx.fill();
+  });
+  requestAnimationFrame(animate);
+}
+animate();
+
+// Scroll
+const fades=document.querySelectorAll('.fade');
+window.addEventListener('scroll',()=>{
+  fades.forEach(el=>{
+    if(window.scrollY>el.offsetTop-400){
+      el.classList.add('show');
+    }
+  });
+});
+</script>
+
+
+<script>
+function chatOpen() {
+  window.open("https://wa.me/923296544448", "_blank");
+}
+</script>
+</body>
+</html>

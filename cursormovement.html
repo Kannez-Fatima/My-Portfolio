@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Extreme Pro Interactive UI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<style>
+  body { cursor: none; background: black; overflow-x: hidden; }
+
+  canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+  }
+
+  .content { position: relative; z-index: 2; }
+
+  .cursor {
+    width: 15px;
+    height: 15px;
+    border: 2px solid #a855f7;
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  .follower {
+    width: 40px;
+    height: 40px;
+    background: rgba(168,85,247,0.15);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+  }
+
+  .card {
+    transform-style: preserve-3d;
+    transition: transform 0.2s;
+  }
+
+</style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="cursor"></div>
+<div class="follower"></div>
+
+<div class="content">
+
+<section class="h-screen flex flex-col justify-center items-center text-center">
+  <h1 class="text-6xl font-extrabold mb-6">Ultra Interactive UI</h1>
+  <p class="text-gray-400">Move mouse → Feel particles + motion</p>
+</section>
+
+<section class="h-screen flex justify-center items-center gap-10">
+  <div class="card w-64 h-80 bg-gradient-to-br from-purple-600 to-indigo-700 rounded-3xl flex items-center justify-center text-2xl text-white">Design</div>
+  <div class="card w-64 h-80 bg-gradient-to-br from-pink-600 to-red-600 rounded-3xl flex items-center justify-center text-2xl text-white">Motion</div>
+  <div class="card w-64 h-80 bg-gradient-to-br from-green-500 to-teal-600 rounded-3xl flex items-center justify-center text-2xl text-white">Experience</div>
+</section>
+
+</div>
+
+<script>
+// Cursor
+const cursor = document.querySelector('.cursor');
+const follower = document.querySelector('.follower');
+
+document.addEventListener('mousemove', e => {
+  gsap.to(cursor, { x: e.clientX, y: e.clientY });
+  gsap.to(follower, { x: e.clientX, y: e.clientY, duration: 0.3 });
+});
+
+// 3D Cards
+
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const rotateX = (y / rect.height - 0.5) * 25;
+    const rotateY = (x / rect.width - 0.5) * -25;
+
+    gsap.to(card, {
+      rotateX,
+      rotateY,
+      scale: 1.1
+    });
+  });
+
+  card.addEventListener('mouseleave', () => {
+    gsap.to(card, { rotateX: 0, rotateY: 0, scale: 1 });
+  });
+});
+
+// Scroll Animation
+
+gsap.utils.toArray("section").forEach(section => {
+  gsap.from(section, {
+    opacity: 0,
+    y: 150,
+    duration: 1.2,
+    scrollTrigger: {
+      trigger: section,
+      start: "top 80%"
+    }
+  });
+});
+
+// PARTICLE BACKGROUND (MOUSE REACTIVE LINES)
+
+const canvas = document.getElementById('bg');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+
+// Track mouse
+window.addEventListener('mousemove', (e) => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+
+  // create new particles at mouse position
+  for (let i = 0; i < 5; i++) {
+    particles.push({
+      x: mouse.x,
+      y: mouse.y,
+      speedY: Math.random() * 3 + 2,
+      speedX: (Math.random() - 0.5) * 2,
+      life: 100
+    });
+  }
+});
+
+function animate() {
+  ctx.fillStyle = 'rgba(0,0,0,0.15)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.strokeStyle = 'rgba(168,85,247,0.7)';
+
+  particles.forEach((p, index) => {
+    ctx.beginPath();
+    ctx.moveTo(p.x, p.y);
+
+    p.x += p.speedX;
+    p.y += p.speedY;
+    p.life--;
+
+    ctx.lineTo(p.x, p.y + 15);
+    ctx.stroke();
+
+    // remove old particles
+    if (p.life <= 0) {
+      particles.splice(index, 1);
+    }
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+</script>
+
+</body>
+</html>

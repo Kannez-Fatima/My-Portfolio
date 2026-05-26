@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyShop</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- AOS Animation -->
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+<style>
+body {
+    background: linear-gradient(to right, #0f0c29, #302b63);
+}
+
+/* Hover effect */
+.product:hover {
+    transform: scale(1.07);
+    transition: 0.4s;
+    box-shadow: 0 0 25px rgba(168,85,247,0.7);
+}
+</style>
+
+</head>
+
+<body class="text-white">
+
+<!-- NAVBAR -->
+<nav class="flex flex-wrap justify-between items-center px-6 py-4 bg-purple-800">
+
+    <h1 class="text-xl font-bold">MyShop</h1>
+
+    <input id="search"
+        class="text-black px-3 py-1 rounded w-full md:w-64 mt-2 md:mt-0"
+        placeholder="Search products...">
+
+    <div class="flex gap-4 mt-2 md:mt-0">
+        <a href="login.html">Login</a>
+        <a href="card.html">Cart (<span id="count">0</span>)</a>
+    </div>
+
+</nav>
+
+<!-- HERO -->
+<section class="text-center py-10" data-aos="fade-down">
+    <h1 class="text-3xl md:text-4xl font-bold">Welcome to My Store</h1>
+    <p class="text-gray-300">Shop Smart, Live Better ✨</p>
+</section>
+
+<!-- PRODUCTS -->
+<div id="products"
+class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
+
+    <!-- Dresses -->
+  <div data-aos="zoom-in" class="product bg-white/10 p-4 rounded text-center item" data-name="dress">
+
+    <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d"
+         loading="lazy"
+         class="w-full h-40 object-cover rounded mb-3">
+
+    <h2>Women's Dress</h2>
+    <p>$40</p>
+
+    <button onclick="add('Dress',40)"
+        class="bg-purple-600 px-3 py-1 mt-2 rounded">
+        Add
+    </button>
+
+</div>
+<!-- Bottels -->
+ <div data-aos="zoom-in" data-aos-delay="300" class="product bg-white/10 p-4 rounded text-center item" data-name="bottle">
+
+    <img src="https://images.unsplash.com/photo-1602143407151-7111542de6e8"
+         loading="lazy"
+         class="w-full h-40 object-cover rounded mb-3">
+
+    <h2>Water Bottle</h2>
+    <p>$12</p>
+
+    <button onclick="add('Bottle',12)"
+        class="bg-purple-600 px-3 py-1 mt-2 rounded">
+        Add
+    </button>
+
+</div>
+    <!-- Jewelry -->
+    <div data-aos="zoom-in" data-aos-delay="100" class="product bg-white/10 p-4 rounded text-center item" data-name="jewelry">
+        <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338"
+        class="h-40 mx-auto mb-3 object-cover">
+        <h2>Jewelry</h2>
+        <p>$60</p>
+        <button onclick="add('Jewelry',60)" class="bg-purple-600 px-3 py-1 mt-2 rounded">Add</button>
+    </div>
+
+    <!-- Makeup -->
+    <div data-aos="zoom-in" data-aos-delay="200" class="product bg-white/10 p-4 rounded text-center item" data-name="makeup">
+        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348"
+        class="h-40 mx-auto mb-3 object-cover">
+        <h2>Makeup</h2>
+        <p>$30</p>
+        <button onclick="add('Makeup',30)" class="bg-purple-600 px-3 py-1 mt-2 rounded">Add</button>
+    </div>
+
+    <!-- iPad -->
+    <div data-aos="zoom-in" data-aos-delay="300" class="product bg-white/10 p-4 rounded text-center item" data-name="ipad">
+        <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3"
+        class="h-40 mx-auto mb-3 object-cover">
+        <h2>iPad</h2>
+        <p>$400</p>
+        <button onclick="add('iPad',400)" class="bg-purple-600 px-3 py-1 mt-2 rounded">Add</button>
+    </div>
+
+    <!-- AirPods -->
+    <div data-aos="zoom-in" class="product bg-white/10 p-4 rounded text-center item" data-name="airpods">
+        <img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad"
+        class="h-40 mx-auto mb-3 object-cover">
+        <h2>AirPods</h2>
+        <p>$120</p>
+        <button onclick="add('AirPods',120)" class="bg-purple-600 px-3 py-1 mt-2 rounded">Add</button>
+    </div>
+
+    <!-- Toys -->
+    <div data-aos="zoom-in" data-aos-delay="100" class="product bg-white/10 p-4 rounded text-center item" data-name="toys">
+        <img src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db"
+        class="h-40 mx-auto mb-3 object-cover">
+        <h2>Toys</h2>
+        <p>$25</p>
+        <button onclick="add('Toys',25)" class="bg-purple-600 px-3 py-1 mt-2 rounded">Add</button>
+    </div>
+
+    <!-- Stationary -->
+    <div data-aos="zoom-in" data-aos-delay="200" class="product bg-white/10 p-4 rounded text-center item" data-name="stationary">
+        <img src="https://images.unsplash.com/photo-1588072432836-e10032774350"
+        class="h-40 mx-auto mb-3 object-cover">
+        <h2>Stationary</h2>
+        <p>$15</p>
+        <button onclick="add('Stationary',15)" class="bg-purple-600 px-3 py-1 mt-2 rounded">Add</button>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="text-center py-6 bg-purple-900">
+    <p>© 2026 MyShop | Designed by Kaneez Fatima</p>
+</footer>
+
+<!-- AOS -->
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+AOS.init({ duration: 1000 });
+</script>
+
+<script src="script.js"></script>
+
+</body>
+</html>

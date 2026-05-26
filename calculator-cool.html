@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Classy Calculator</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="flex justify-center items-center h-screen bg-gradient-to-br from-[#0f2027] via-[#203a43] to-[#2c5364] font-sans">
+
+<div class="bg-[#1e1e2f] p-5 rounded-[25px] w-[320px] shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
+
+    <!-- Display -->
+    <input id="display" disabled
+        class="w-full h-[60px] mb-4 rounded-[15px] bg-black text-[#00e5ff] text-right text-[22px] px-3 outline-none">
+
+    <!-- Top buttons -->
+    <div class="flex gap-2 mb-3">
+        <button onclick="clearDisplay()"
+            class="flex-1 h-[55px] bg-[#ff3d00] text-white rounded-[12px] 
+                   transition-all duration-200 hover:scale-105 hover:bg-[#ff5722] active:scale-90 active:bg-[#00e5ff] active:text-black">
+            C
+        </button>
+
+        <button onclick="backspace()"
+            class="flex-1 h-[55px] bg-[#ff3d00] text-white rounded-[12px] 
+                   transition-all duration-200 hover:scale-105 hover:bg-[#ff5722] active:scale-90 active:bg-[#00e5ff] active:text-black">
+            ⌫
+        </button>
+    </div>
+
+    <!-- Grid -->
+    <div class="grid grid-cols-4 gap-2">
+
+        <!-- Row 1 -->
+        <button onclick="append('7')" class="btn">7</button>
+        <button onclick="append('8')" class="btn">8</button>
+        <button onclick="append('9')" class="btn">9</button>
+        <button onclick="append('+')" class="op">+</button>
+
+        <!-- Row 2 -->
+        <button onclick="append('4')" class="btn">4</button>
+        <button onclick="append('5')" class="btn">5</button>
+        <button onclick="append('6')" class="btn">6</button>
+        <button onclick="append('-')" class="op">-</button>
+
+        <!-- Row 3 -->
+        <button onclick="append('1')" class="btn">1</button>
+        <button onclick="append('2')" class="btn">2</button>
+        <button onclick="append('3')" class="btn">3</button>
+        <button onclick="append('*')" class="op">*</button>
+
+        <!-- Row 4 -->
+        <button onclick="append('0')" class="btn">0</button>
+        <button onclick="append('.')" class="btn">.</button>
+        <button onclick="append('%')" class="btn">%</button>
+        <button onclick="append('/')" class="op">/</button>
+
+    </div>
+
+    <!-- Equal -->
+    <button onclick="calculate()"
+        class="w-full mt-3 h-[60px] rounded-[15px] bg-[#00e676] text-black text-[20px] 
+               transition-all duration-200 hover:scale-105 active:scale-90 active:bg-[#00e5ff]">
+        =
+    </button>
+
+</div>
+
+<!-- Reusable styles (same as before) -->
+<style>
+.btn {
+    height: 60px;
+    border-radius: 15px;
+    background: #2e2e4d;
+    color: white;
+    font-size: 18px;
+    transition: all 0.2s ease;
+}
+.btn:hover {
+    transform: scale(1.08);
+    background: #3f3f6f;
+}
+.btn:active {
+    transform: scale(0.9);
+    background: #00e5ff;
+    color: black;
+}
+
+.op {
+    height: 60px;
+    border-radius: 15px;
+    background: #ff9800;
+    color: white;
+    font-size: 18px;
+    transition: all 0.2s ease;
+}
+.op:hover {
+    transform: scale(1.08);
+    background: #ffb74d;
+}
+.op:active {
+    transform: scale(0.9);
+    background: #00e5ff;
+    color: black;
+}
+</style>
+
+<script>
+function append(val) {
+    document.getElementById("display").value += val;
+}
+
+function clearDisplay() {
+    document.getElementById("display").value = "";
+}
+
+function backspace() {
+    let val = document.getElementById("display").value;
+    document.getElementById("display").value = val.slice(0, -1);
+}
+
+function calculate() {
+    try {
+        document.getElementById("display").value =
+            eval(document.getElementById("display").value);
+    } catch {
+        alert("Invalid Input");
+    }
+}
+</script>
+
+</body>
+</html>

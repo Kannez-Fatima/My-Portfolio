@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Grid Hover Effect</title>
+
+<style>
+body {
+  margin: 0;
+  background: #0f172a;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  height: 100vh;
+}
+
+.box {
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: background 0.3s ease;
+}
+
+.box.active {
+  background: #38bdf8;
+}
+
+/* Center Text */
+.center-text {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+  z-index: 10;
+}
+
+.center-text h1 {
+  font-size: 40px;
+  margin: 10px 0;
+}
+
+.center-text p {
+  font-size: 20px;
+  opacity: 0.8;
+}
+</style>
+</head>
+
+<body>
+
+<div class="center-text">
+   <button style="border-radius: 20px;  padding: 20px; background-color: rgb(24, 247, 247); border: none; color: whitesmoke;"><a href="myTask-project.html" style="text-decoration: none;">To Save Notes</a></button><br><br>
+  <button style="border-radius: 20px; padding: 20px; margin: 10px; background-color: rgb(254, 135, 135); border: none; color: whitesmoke;"><a href="AiAgent.html" style="text-decoration: none;">Dummy AI Agent</a></button>
+     <button style="border-radius: 20px; padding: 20px; margin: 10px; background-color: rgb(54, 247, 157); color: whitesmoke; border: none;"><a href="userInteraction.html" style="text-decoration: none;">Coursor Movement</a></button><br><br>
+     <button style="border-radius: 20px; padding: 20px; margin: 20px; background-color: rgb(204, 75, 255); color: whitesmoke; border: none;"><a href="interaction.html" style="text-decoration: none;">Interact With UI Level 2</a></button>
+       <button style="border-radius: 20px; padding: 20px; background-color: rgb(236, 240, 100); border: none; color: whitesmoke;"><a href="cursormovement.html" style="text-decoration: none;">Interact With UI Level 3</a></button><br><br>
+
+</div>
+
+<div class="grid" id="grid"></div>
+
+<script>
+const grid = document.getElementById("grid");
+
+// create boxes
+for (let i = 0; i < 400; i++) {
+  const box = document.createElement("div");
+  box.classList.add("box");
+
+  box.addEventListener("mousemove", () => {
+    box.classList.add("active");
+
+    setTimeout(() => {
+      box.classList.remove("active");
+    }, 300);
+  });
+
+  grid.appendChild(box);
+}
+</script>
+
+</body>
+</html>

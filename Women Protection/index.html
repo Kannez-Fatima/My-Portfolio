@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Women Safety Alert System</title>
+
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- AOS Animation -->
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#050505;
+overflow-x:hidden;
+color:white;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+background:#ff004c;
+border-radius:10px;
+}
+
+/* BACKGROUND */
+
+.bg-animation{
+position:fixed;
+width:100%;
+height:100%;
+top:0;
+left:0;
+overflow:hidden;
+z-index:-5;
+}
+
+.bg-animation span{
+position:absolute;
+display:block;
+width:20px;
+height:20px;
+background:rgba(255,0,76,0.2);
+animation:animate 20s linear infinite;
+bottom:-150px;
+border-radius:50%;
+box-shadow:0 0 25px #ff004c;
+}
+
+.bg-animation span:nth-child(1){
+left:10%;
+width:80px;
+height:80px;
+animation-duration:15s;
+}
+
+.bg-animation span:nth-child(2){
+left:20%;
+animation-duration:12s;
+}
+
+.bg-animation span:nth-child(3){
+left:35%;
+width:60px;
+height:60px;
+animation-duration:18s;
+}
+
+.bg-animation span:nth-child(4){
+left:50%;
+animation-duration:10s;
+}
+
+.bg-animation span:nth-child(5){
+left:70%;
+width:90px;
+height:90px;
+animation-duration:22s;
+}
+
+.bg-animation span:nth-child(6){
+left:85%;
+animation-duration:14s;
+}
+
+@keyframes animate{
+0%{
+transform:translateY(0) rotate(0deg);
+opacity:0;
+}
+10%{
+opacity:1;
+}
+100%{
+transform:translateY(-1200px) rotate(720deg);
+opacity:0;
+}
+}
+
+/* GLOW */
+
+.glow{
+box-shadow:
+0 0 15px #ff004c,
+0 0 35px #ff004c,
+0 0 60px rgba(255,0,76,0.5);
+}
+
+/* CARD */
+
+.glass{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,0.08);
+}
+
+/* PULSE */
+
+.pulse-ring{
+position:absolute;
+width:260px;
+height:260px;
+border-radius:50%;
+border:2px solid #ff004c;
+animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+0%{
+transform:scale(.7);
+opacity:1;
+}
+100%{
+transform:scale(1.5);
+opacity:0;
+}
+}
+
+/* ALERT SCREEN */
+
+.alert-screen{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(255,0,0,0.15);
+display:none;
+z-index:999;
+animation:dangerFlash .4s infinite;
+pointer-events:none;
+}
+
+@keyframes dangerFlash{
+0%{
+background:rgba(255,0,0,0.1);
+}
+50%{
+background:rgba(255,0,0,0.3);
+}
+100%{
+background:rgba(255,0,0,0.1);
+}
+}
+
+/* LOADER */
+
+.loader{
+width:100px;
+height:100px;
+border:6px solid rgba(255,255,255,0.1);
+border-top:6px solid #ff004c;
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+100%{
+transform:rotate(360deg);
+}
+}
+
+/* CONTACT CARD */
+
+.contact-card{
+transition:.4s;
+}
+
+.contact-card:hover{
+transform:translateY(-8px) scale(1.02);
+box-shadow:0 0 20px rgba(255,0,76,.4);
+}
+
+/* LIVE DOT */
+
+.live-dot{
+width:12px;
+height:12px;
+background:#00ff66;
+border-radius:50%;
+animation:live 1s infinite;
+}
+
+@keyframes live{
+0%{
+transform:scale(1);
+opacity:1;
+}
+100%{
+transform:scale(2);
+opacity:0;
+}
+}
+
+/* GPS */
+
+.map-line{
+height:4px;
+width:100%;
+background:linear-gradient(90deg,#ff004c,transparent);
+animation:moveLine 2s linear infinite;
+}
+
+@keyframes moveLine{
+0%{
+transform:translateX(-100%);
+}
+100%{
+transform:translateX(100%);
+}
+}
+
+/* BUTTON */
+
+.main-btn{
+transition:.4s;
+}
+
+.main-btn:hover{
+transform:scale(1.08);
+box-shadow:0 0 40px #ff004c;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ALERT FLASH -->
+<div class="alert-screen"></div>
+
+<!-- BACKGROUND -->
+<div class="bg-animation">
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+</div>
+
+<!-- NAVBAR -->
+<nav class="w-full p-6 flex justify-between items-center glass fixed top-0 z-50">
+<h1 class="text-2xl font-bold text-red-500 tracking-widest">
+SAFE HER
+</h1>
+
+<div class="flex items-center gap-2">
+<div class="live-dot"></div>
+<!-- <p class="text-sm text-green-400">LIVE SECURITY ACTIVE     </p> -->
+<p class="text-sm text-green-400"> <a href="login-signup.html" style="text-decoration: none;" class="text-sm text-green-400">SIGN UP AND LOGIN</a> </p>
+</div>
+</nav>
+
+<!-- HERO -->
+
+<section class="min-h-screen flex flex-col justify-center items-center relative px-6">
+
+<div class="pulse-ring"></div>
+
+<div 
+class="w-64 h-64 rounded-full bg-red-600 flex items-center justify-center glow relative z-10 cursor-pointer main-btn"
+id="sosBtn"
+>
+
+<div class="text-center">
+<h1 class="text-5xl font-bold">SOS</h1>
+<p class="mt-2 text-sm tracking-widest">EMERGENCY</p>
+</div>
+
+</div>
+
+<h1 
+class="text-5xl md:text-7xl font-bold mt-16 text-center"
+data-aos="zoom-in"
+>
+Women Safety Alert System
+</h1>
+
+<p 
+class="text-gray-400 text-center mt-6 max-w-2xl leading-8"
+data-aos="fade-up"
+>
+Advanced AI-style women safety interface with emergency alerts,
+live GPS simulation, siren activation, emergency contacts,
+animated danger system and futuristic neon protection UI.
+</p>
+
+</section>
+
+<!-- LIVE GPS -->
+
+<section class="py-20 px-6">
+
+<div 
+class="glass rounded-3xl p-10 max-w-6xl mx-auto"
+data-aos="fade-up"
+>
+
+<div class="flex justify-between items-center mb-10">
+<h2 class="text-3xl font-bold text-red-500">
+Live GPS Tracking
+</h2>
+
+<div class="flex items-center gap-2">
+<div class="live-dot"></div>
+<p>Tracking Active</p>
+</div>
+</div>
+
+<div class="bg-black rounded-3xl p-8 overflow-hidden relative">
+
+<div class="map-line absolute top-10"></div>
+<div class="map-line absolute top-32"></div>
+<div class="map-line absolute top-56"></div>
+
+<div class="grid md:grid-cols-3 gap-8">
+
+<div class="glass p-6 rounded-2xl text-center">
+<h3 class="text-xl font-semibold mb-4">Current Area</h3>
+<p id="locationText" class="text-red-400">
+Lahore - Pakistan
+</p>
+</div>
+
+<div class="glass p-6 rounded-2xl text-center">
+<h3 class="text-xl font-semibold mb-4">Signal Status</h3>
+<p class="text-green-400">
+Connected
+</p>
+</div>
+
+<div class="glass p-6 rounded-2xl text-center">
+<h3 class="text-xl font-semibold mb-4">Safety Score</h3>
+<p class="text-yellow-400">
+78%
+</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- CONTACTS -->
+
+<section class="py-20 px-6">
+
+<div class="max-w-6xl mx-auto">
+
+<h1 
+class="text-4xl font-bold text-center text-red-500 mb-16"
+data-aos="zoom-in"
+>
+Emergency Contacts
+</h1>
+
+<div class="grid md:grid-cols-2 gap-8">
+
+<!-- FORM -->
+
+<div 
+class="glass p-8 rounded-3xl "
+data-aos="fade-right"
+>
+
+<input 
+type="text"
+id="name"
+placeholder="Contact Name"
+class="w-full p-4 rounded-xl bg-black border border-red-500 outline-none mb-5"
+/>
+
+<input 
+type="text"
+id="number"
+placeholder="Phone Number"
+class="w-full p-4 rounded-xl bg-black border border-red-500 outline-none mb-5"
+/>
+
+<button 
+id="saveBtn"
+class="w-full bg-red-600 py-4 rounded-xl font-semibold main-btn"
+>
+Save Contact
+</button>
+
+</div>
+
+<!-- CONTACT LIST -->
+
+<div 
+class="space-y-5"
+id="contactList"
+data-aos="fade-left"
+>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- SAFETY TIPS -->
+
+<section class="py-20 px-6">
+
+<div 
+class="max-w-6xl mx-auto glass rounded-3xl p-10"
+data-aos="fade-up"
+>
+
+<h1 class="text-4xl font-bold text-red-500 mb-10 text-center">
+AI Safety Suggestions
+</h1>
+
+<div class="grid md:grid-cols-3 gap-8">
+
+<div class="glass p-6 rounded-2xl contact-card">
+<h2 class="text-xl font-semibold mb-4 text-red-400">
+Avoid Dark Areas
+</h2>
+<p class="text-gray-400 leading-7">
+Always stay in public and well-lit areas during night travel.
+</p>
+</div>
+
+<div class="glass p-6 rounded-2xl contact-card">
+<h2 class="text-xl font-semibold mb-4 text-red-400">
+Share Live Location
+</h2>
+<p class="text-gray-400 leading-7">
+Keep your location shared with trusted family members.
+</p>
+</div>
+
+<div class="glass p-6 rounded-2xl contact-card">
+<h2 class="text-xl font-semibold mb-4 text-red-400">
+Emergency Awareness
+</h2>
+<p class="text-gray-400 leading-7">
+Keep your phone charged and emergency mode activated.
+</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- LOADING MODAL -->
+
+<div 
+id="loadingScreen"
+class="fixed inset-0 bg-black/90 hidden flex-col justify-center items-center z-[9999]"
+>
+
+<div class="loader mb-8"></div>
+
+<h1 class="text-4xl font-bold text-red-500 mb-4">
+Sending Emergency Alert...
+</h1>
+
+<p class="text-gray-400">
+Live location & emergency contacts are being notified.
+</p>
+
+</div>
+
+<!-- FOOTER -->
+
+<footer class="py-10 text-center text-gray-500">
+Women Safety Alert System | Advanced Animated UI
+</footer>
+
+<!-- AUDIO -->
+
+<audio id="siren">
+<source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" type="audio/ogg">
+</audio>
+
+<script>
+
+AOS.init({
+duration:1400,
+once:false
+});
+
+/* CONTACT SAVE */
+
+function loadContacts(){
+
+let contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+
+$("#contactList").html("");
+
+contacts.forEach((contact,index)=>{
+
+$("#contactList").append(`
+
+<div class="glass p-6 rounded-2xl flex justify-between items-center contact-card">
+
+<div>
+<h2 class="text-xl font-semibold text-red-400">${contact.name}</h2>
+<p class="text-gray-400">${contact.number}</p>
+</div>
+
+<button 
+onclick="deleteContact(${index})"
+class="bg-red-600 px-5 py-2 rounded-lg"
+>
+Delete
+</button>
+
+</div>
+
+`);
+
+});
+
+}
+
+$("#saveBtn").click(function(){
+
+let name = $("#name").val();
+let number = $("#number").val();
+
+if(name === "" || number === ""){
+alert("Please fill all fields");
+return;
+}
+
+let contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+
+contacts.push({name,number});
+
+localStorage.setItem("contacts",JSON.stringify(contacts));
+
+$("#name").val("");
+$("#number").val("");
+
+loadContacts();
+
+});
+
+/* DELETE */
+
+function deleteContact(index){
+
+let contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+
+contacts.splice(index,1);
+
+localStorage.setItem("contacts",JSON.stringify(contacts));
+
+loadContacts();
+
+}
+
+loadContacts();
+
+/* SOS BUTTON */
+
+$("#sosBtn").click(function(){
+
+$("#loadingScreen").fadeIn();
+
+$(".alert-screen").show();
+
+$("#siren")[0].play();
+
+navigator.vibrate?.([300,100,300,100,300]);
+
+setTimeout(()=>{
+
+$("#loadingScreen").fadeOut();
+
+alert("Emergency Alert Sent Successfully!");
+
+},4000);
+
+});
+
+/* FAKE LOCATION */
+
+const locations = [
+"Johar Town - Lahore",
+"Model Town - Lahore",
+"Gulberg - Lahore",
+"DHA - Lahore",
+"Faisal Town - Lahore",
+"Bahria Town - Lahore"
+];
+
+setInterval(()=>{
+
+let random = Math.floor(Math.random()*locations.length);
+
+$("#locationText").fadeOut(function(){
+
+$(this).text(locations[random]).fadeIn();
+
+});
+
+},3000);
+
+/* RANDOM SAFETY ALERTS */
+
+setInterval(()=>{
+
+let tips = [
+"Stay alert in isolated areas.",
+"Emergency signal connected.",
+"AI monitoring nearby activity.",
+"Safe route detected nearby.",
+"Your contacts are synced."
+];
+
+let randomTip = tips[Math.floor(Math.random()*tips.length)];
+
+const notify = $(`
+<div class="fixed right-5 top-24 glass px-6 py-4 rounded-2xl z-50 border border-red-500">
+<p class="text-red-400">${randomTip}</p>
+</div>
+`);
+
+$("body").append(notify);
+
+setTimeout(()=>{
+notify.fadeOut(500,function(){
+$(this).remove();
+});
+},3000);
+
+},7000);
+
+</script>
+
+</body>
+</html>

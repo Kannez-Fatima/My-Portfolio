@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Chocolate Shop UI</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:sans-serif;
+}
+
+body{
+  height:100vh;
+  overflow:hidden;
+
+  background:
+  linear-gradient(
+  135deg,
+  #ffcad4,
+  #cdb4db,
+  #a2d2ff,
+  #b9fbc0
+  );
+
+  background-size:400% 400%;
+  animation:bgMove 12s infinite ease;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* Animated Background */
+
+@keyframes bgMove{
+
+  0%{
+    background-position:0% 50%;
+  }
+
+  50%{
+    background-position:100% 50%;
+  }
+
+  100%{
+    background-position:0% 50%;
+  }
+
+}
+
+/* Glass Effect */
+
+.glass{
+
+  width:400px;
+
+  padding:25px;
+
+  border-radius:35px;
+
+  background:rgba(255,255,255,0.12);
+
+  backdrop-filter:blur(25px);
+
+  border:1px solid rgba(255,255,255,0.25);
+
+  box-shadow:0 20px 60px rgba(0,0,0,0.25);
+
+  position:relative;
+
+}
+
+/* Main Button */
+
+#menuBtn{
+
+  width:100%;
+
+  padding:18px;
+
+  border:none;
+
+  border-radius:20px;
+
+  cursor:pointer;
+
+  color:white;
+
+  font-size:20px;
+
+  font-weight:bold;
+
+  letter-spacing:1px;
+
+  background:
+  linear-gradient(
+  135deg,
+  #ff4d6d,
+  #9d4edd,
+  #4cc9f0,
+  #80ed99
+  );
+
+  background-size:300% 300%;
+
+  animation:moveBtn 6s linear infinite;
+
+  transition:0.4s;
+
+}
+
+#menuBtn:hover{
+
+  transform:scale(1.05);
+
+  letter-spacing:3px;
+
+}
+
+@keyframes moveBtn{
+
+  0%{
+    background-position:0% 50%;
+  }
+
+  50%{
+    background-position:100% 50%;
+  }
+
+  100%{
+    background-position:0% 50%;
+  }
+
+}
+
+/* Dropdown */
+
+.dropdown{
+
+  margin-top:20px;
+
+  display:none;
+
+  flex-direction:column;
+
+  gap:15px;
+
+  animation:drop 0.7s ease;
+
+}
+
+.dropdown.show{
+  display:flex;
+}
+
+@keyframes drop{
+
+  from{
+
+    opacity:0;
+
+    transform:translateY(-40px) scale(0.8);
+
+  }
+
+  to{
+
+    opacity:1;
+
+    transform:translateY(0) scale(1);
+
+  }
+
+}
+
+/* Items */
+
+.item{
+
+  padding:18px;
+
+  border-radius:22px;
+
+  color:white;
+
+  text-decoration:none;
+
+  font-size:18px;
+
+  font-weight:600;
+
+  overflow:hidden;
+
+  position:relative;
+
+  background:rgba(255,255,255,0.12);
+
+  transition:0.5s;
+
+}
+
+/* Shine Animation */
+
+.item::before{
+
+  content:"";
+
+  position:absolute;
+
+  top:0;
+
+  left:-120%;
+
+  width:120%;
+
+  height:100%;
+
+  background:
+  linear-gradient(
+  90deg,
+  transparent,
+  rgba(255,255,255,0.5),
+  transparent
+  );
+
+  transition:0.7s;
+
+}
+
+.item:hover::before{
+
+  left:100%;
+
+}
+
+.item:hover{
+
+  transform:translateX(12px) scale(1.05);
+
+  background:
+  linear-gradient(
+  135deg,
+  #ff8fab,
+  #c77dff,
+  #48cae4,
+  #80ed99
+  );
+
+  box-shadow:0 10px 25px rgba(255,255,255,0.35);
+
+}
+
+/* Floating Circles */
+
+.circle{
+
+  position:absolute;
+
+  border-radius:50%;
+
+  background:rgba(255,255,255,0.18);
+
+  backdrop-filter:blur(10px);
+
+  animation:float 8s infinite linear;
+
+}
+
+@keyframes float{
+
+  0%{
+
+    transform:translateY(100vh) scale(0.3);
+
+    opacity:0;
+
+  }
+
+  50%{
+
+    opacity:1;
+
+  }
+
+  100%{
+
+    transform:translateY(-120vh) scale(1);
+
+    opacity:0;
+
+  }
+
+}
+
+/* Input */
+
+.inputBox{
+
+  margin-top:18px;
+
+  width:100%;
+
+  padding:15px;
+
+  border:none;
+
+  border-radius:18px;
+
+  outline:none;
+
+  font-size:16px;
+
+  color:white;
+
+  background:rgba(255,255,255,0.12);
+
+  backdrop-filter:blur(10px);
+
+}
+
+.inputBox::placeholder{
+  color:white;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Floating Background -->
+
+<div class="circle w-24 h-24 left-10"></div>
+
+<div class="circle w-36 h-36 right-20"
+style="animation-delay:2s;"></div>
+
+<div class="circle w-20 h-20 left-1/2"
+style="animation-delay:4s;"></div>
+
+<!-- Main UI -->
+
+<div class="glass">
+
+  <!-- Open Button -->
+
+  <button id="menuBtn">
+    Small Projects 
+  </button>
+
+  <!-- Dropdown -->
+
+  <div class="dropdown" id="dropdown">
+
+    <a href="AiAgent.html" class="item">
+      🍫 Chocolate Shop
+    </a>
+
+    <a href="userInteraction.html" class="item">
+      🎨 UI Interaction
+    </a>
+
+    <a href="cursormovement.html" class="item">
+      ⚡ Ultra UI Interaction
+    </a>
+
+    <a href="myTask-project.html" class="item">
+      📝 Small Notepad
+    </a>
+
+    <a href="Women Protection/index.html" class="item">
+      Women Protection System Sample
+    </a>
+     <a href="Tech For All/index.html" class="item">
+      Tech For All Site
+    </a>  
+  </div>
+</div>
+
+<script>
+
+const menuBtn=document.getElementById("menuBtn");
+
+const dropdown=document.getElementById("dropdown");
+
+menuBtn.addEventListener("click",()=>{
+
+  dropdown.classList.toggle("show");
+
+});
+
+/* Random Floating Dots */
+
+for(let i=0;i<25;i++){
+
+  const dot=document.createElement("div");
+
+  dot.classList.add("circle");
+
+  dot.style.width=Math.random()*20+10+"px";
+
+  dot.style.height=dot.style.width;
+
+  dot.style.left=Math.random()*100+"vw";
+
+  dot.style.animationDuration=
+  Math.random()*5+5+"s";
+
+  dot.style.animationDelay=
+  Math.random()*5+"s";
+
+  document.body.appendChild(dot);
+
+}
+
+</script>
+
+</body>
+</html>

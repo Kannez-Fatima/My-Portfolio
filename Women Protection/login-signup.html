@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Animated Login & Signup</title>
+
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- AOS -->
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+<!-- Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#050816;
+overflow:hidden;
+color:white;
+}
+
+/* BACKGROUND */
+
+.bg{
+position:fixed;
+inset:0;
+overflow:hidden;
+z-index:-10;
+background:
+radial-gradient(circle at top left,#ff008c33,transparent 30%),
+radial-gradient(circle at bottom right,#00d9ff22,transparent 30%),
+#050816;
+}
+
+/* FLOATING BALLS */
+
+.ball{
+position:absolute;
+border-radius:50%;
+filter:blur(10px);
+animation:float 10s infinite linear;
+}
+
+.ball:nth-child(1){
+width:250px;
+height:250px;
+background:#ff008c55;
+top:-50px;
+left:-50px;
+}
+
+.ball:nth-child(2){
+width:200px;
+height:200px;
+background:#00d9ff44;
+bottom:-60px;
+right:-50px;
+animation-duration:14s;
+}
+
+.ball:nth-child(3){
+width:120px;
+height:120px;
+background:#9d00ff55;
+top:50%;
+left:50%;
+animation-duration:8s;
+}
+
+@keyframes float{
+0%{
+transform:translateY(0px) rotate(0deg);
+}
+50%{
+transform:translateY(-30px) rotate(180deg);
+}
+100%{
+transform:translateY(0px) rotate(360deg);
+}
+}
+
+/* PARTICLES */
+
+.particles span{
+position:absolute;
+width:4px;
+height:4px;
+background:white;
+border-radius:50%;
+animation:particles 8s linear infinite;
+opacity:.6;
+}
+
+@keyframes particles{
+0%{
+transform:translateY(100vh) scale(0);
+opacity:0;
+}
+10%{
+opacity:1;
+}
+100%{
+transform:translateY(-100vh) scale(1.5);
+opacity:0;
+}
+}
+
+/* GLASS */
+
+.glass{
+background:rgba(255,255,255,.05);
+backdrop-filter:blur(18px);
+border:1px solid rgba(255,255,255,.1);
+box-shadow:
+0 0 30px rgba(255,255,255,.05),
+0 0 80px rgba(255,0,140,.08);
+}
+
+/* INPUT */
+
+.input{
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.08);
+transition:.4s;
+}
+
+.input:focus{
+border-color:#ff008c;
+box-shadow:0 0 20px #ff008c66;
+transform:scale(1.02);
+}
+
+/* BUTTON */
+
+.btn{
+background:linear-gradient(135deg,#ff008c,#7b00ff);
+transition:.4s;
+}
+
+.btn:hover{
+transform:translateY(-4px) scale(1.03);
+box-shadow:
+0 0 20px #ff008c,
+0 0 50px #7b00ff;
+}
+
+/* SWITCH ANIMATION */
+
+.form-box{
+transition:1s;
+}
+
+.hidden-box{
+opacity:0;
+pointer-events:none;
+transform:translateX(100px);
+position:absolute;
+}
+
+.active-box{
+opacity:1;
+pointer-events:auto;
+transform:translateX(0);
+position:relative;
+}
+
+/* GLOW TEXT */
+
+.glow{
+text-shadow:
+0 0 10px #ff008c,
+0 0 30px #ff008c;
+}
+
+/* LOADER */
+
+.loader{
+width:80px;
+height:80px;
+border-radius:50%;
+border:5px solid rgba(255,255,255,.1);
+border-top:5px solid #ff008c;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+100%{
+transform:rotate(360deg);
+}
+}
+
+/* SUCCESS */
+
+.success{
+animation:pop .6s ease;
+}
+
+@keyframes pop{
+0%{
+transform:scale(.5);
+opacity:0;
+}
+100%{
+transform:scale(1);
+opacity:1;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND -->
+
+<div class="bg">
+
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+
+<div class="particles">
+<span style="left:10%;animation-duration:7s;"></span>
+<span style="left:20%;animation-duration:5s;"></span>
+<span style="left:40%;animation-duration:8s;"></span>
+<span style="left:60%;animation-duration:6s;"></span>
+<span style="left:80%;animation-duration:9s;"></span>
+<span style="left:90%;animation-duration:4s;"></span>
+</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="min-h-screen flex justify-center items-center px-6">
+
+<div 
+class="glass rounded-[40px] w-full max-w-5xl overflow-hidden grid md:grid-cols-2"
+data-aos="zoom-in"
+>
+
+<!-- LEFT -->
+
+<div class="p-14 flex flex-col justify-center relative overflow-hidden">
+
+<h1 class="text-6xl font-bold glow leading-tight">
+Secure <br> Access
+</h1>
+
+<p class="text-gray-300 mt-8 leading-8">
+Modern futuristic animated login & signup interface
+with glowing neon effects, smooth transitions,
+glassmorphism and advanced UI animations.
+</p>
+
+<div class="mt-10 flex gap-4">
+
+<div class="w-4 h-4 bg-pink-500 rounded-full animate-ping"></div>
+<div class="w-4 h-4 bg-cyan-400 rounded-full animate-bounce"></div>
+<div class="w-4 h-4 bg-purple-500 rounded-full animate-pulse"></div>
+
+</div>
+
+</div>
+
+<!-- RIGHT -->
+
+<div class="relative p-10 min-h-[650px] flex items-center">
+
+<!-- LOGIN -->
+
+<div id="loginBox" class="form-box active-box w-full">
+
+<h2 class="text-4xl font-bold mb-8 text-center">
+Login
+</h2>
+
+<div class="space-y-6">
+
+<input 
+type="email"
+placeholder="Email Address"
+class="input w-full p-4 rounded-2xl outline-none"
+/>
+
+<input 
+type="password"
+placeholder="Password"
+class="input w-full p-4 rounded-2xl outline-none"
+/>
+
+<button id="loginBtn"
+class="btn w-full py-4 rounded-2xl font-semibold text-lg">
+Login
+</button>
+
+</div>
+
+<p class="text-center mt-8 text-gray-400">
+Don't have an account?
+
+<span id="showSignup"
+class="text-pink-500 cursor-pointer hover:underline">
+Signup
+</span>
+
+</p>
+
+</div>
+
+<!-- SIGNUP -->
+
+<div id="signupBox" class="form-box hidden-box w-full">
+
+<h2 class="text-4xl font-bold mb-8 text-center">
+Signup
+</h2>
+
+<div class="space-y-6">
+
+<input 
+type="text"
+placeholder="Full Name"
+class="input w-full p-4 rounded-2xl outline-none"
+/>
+
+<input 
+type="email"
+placeholder="Email Address"
+class="input w-full p-4 rounded-2xl outline-none"
+/>
+
+<input 
+type="password"
+placeholder="Password"
+class="input w-full p-4 rounded-2xl outline-none"
+/>
+
+<button id="signupBtn"
+class="btn w-full py-4 rounded-2xl font-semibold text-lg">
+Create Account
+</button>
+
+</div>
+
+<p class="text-center mt-8 text-gray-400">
+Already have an account?
+
+<span id="showLogin"
+class="text-cyan-400 cursor-pointer hover:underline">
+Login
+</span>
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- LOADING -->
+
+<div 
+id="loading"
+class="fixed inset-0 bg-black/90 hidden justify-center items-center flex-col z-50"
+>
+
+<div class="loader"></div>
+
+<h1 class="text-4xl mt-8 font-bold glow">
+Please Wait...
+</h1>
+
+</div>
+
+<!-- SUCCESS -->
+
+<div 
+id="success"
+class="fixed top-10 right-10 hidden glass px-8 py-5 rounded-3xl success z-50"
+>
+
+<h2 class="text-green-400 text-xl font-bold">
+Success!
+</h2>
+
+<p class="text-gray-300 mt-2">
+Authentication Completed
+</p>
+
+</div>
+
+<script>
+
+AOS.init({
+duration:1400
+});
+
+/* SWITCH */
+
+$("#showSignup").click(function(){
+
+$("#loginBox")
+.removeClass("active-box")
+.addClass("hidden-box");
+
+$("#signupBox")
+.removeClass("hidden-box")
+.addClass("active-box");
+
+});
+
+$("#showLogin").click(function(){
+
+$("#signupBox")
+.removeClass("active-box")
+.addClass("hidden-box");
+
+$("#loginBox")
+.removeClass("hidden-box")
+.addClass("active-box");
+
+});
+
+/* AUTH LOADER */
+
+function authAnimation(){
+
+$("#loading").fadeIn();
+
+setTimeout(()=>{
+
+$("#loading").fadeOut();
+
+$("#success").fadeIn();
+
+setTimeout(()=>{
+
+$("#success").fadeOut();
+
+},3000);
+
+},2500);
+
+}
+
+/* BUTTONS */
+
+$("#loginBtn").click(function(){
+
+authAnimation();
+
+});
+
+$("#signupBtn").click(function(){
+
+authAnimation();
+
+});
+
+/* MOUSE GLOW */
+
+$(document).mousemove(function(e){
+
+const x = e.clientX;
+const y = e.clientY;
+
+$(".bg").css(
+"background",
+`
+radial-gradient(circle at ${x}px ${y}px,
+rgba(255,0,140,.15),
+transparent 20%),
+radial-gradient(circle at top left,#ff008c33,transparent 30%),
+radial-gradient(circle at bottom right,#00d9ff22,transparent 30%),
+#050816
+`
+);
+
+});
+
+/* RANDOM FLOATING NOTIFICATIONS */
+
+setInterval(()=>{
+
+const msgs = [
+"Encrypted Security Enabled",
+"Authentication Verified",
+"AI Security Active",
+"Protected Access Detected",
+"Secure Connection Established"
+];
+
+let random =
+msgs[Math.floor(Math.random()*msgs.length)];
+
+const note = $(`
+
+<div class="fixed bottom-10 left-10 glass px-6 py-4 rounded-2xl z-50">
+
+<p class="text-pink-400">
+${random}
+</p>
+
+</div>
+
+`);
+
+$("body").append(note);
+
+setTimeout(()=>{
+
+note.fadeOut(500,function(){
+
+$(this).remove();
+
+});
+
+},3000);
+
+},7000);
+
+</script>
+
+</body>
+</html>
